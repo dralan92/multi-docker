@@ -9,14 +9,28 @@ script:
   - docker run -e CI=true dralan/react-test npm test
 
 after_success:
-  - docker build -t dralan/multi-client ./client
-  - docker build -t dralan/multi-nginx ./nginx
-  - docker build -t dralan/multi-server ./server
-  - docker build -t dralan/multi-worker ./worker
+  - docker build -t draln/multi-client ./client
+  - docker build -t draln/multi-nginx ./nginx
+  - docker build -t draln/multi-server ./server
+  - docker build -t draln/multi-worker ./worker
   #Login to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those and push to docker hub
-  - docker push dralan/multi-client
-  - docker push dralan/multi-nginx
-  - docker push dralan/multi-server
-  - docker push dralan/multi-worker
+  - docker push draln/multi-client
+  - docker push draln/multi-nginx
+  - docker push draln/multi-server
+  - docker push draln/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-1-188897900704
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
