@@ -5,14 +5,16 @@
             "name" : "client",
             "image" : "draln/multi-client",
             "hostname" : "client",
-            "essential": false
+            "essential": false,
+            "memory": 128
             
         },
         {
             "name" : "server",
             "image" : "draln/multi-server",
             "hostname":"api",
-            "essential": false
+            "essential": false,
+            "memory": 128
             
 
         },
@@ -20,7 +22,8 @@
             "name" : "worker",
             "image" : "draln/multi-worker",
             "hostname":"worker",
-            "essential": false
+            "essential": false,
+            "memory": 128
             
 
         },
@@ -35,7 +38,8 @@
                     "containerPort":80
                 }
             ],
-            "links":["client","server"]
+            "links":["client","server"],
+            "memory": 128
             
 
         }
